@@ -29,9 +29,4 @@ public class Game {
     public String toString() {
         return homeTeam.teamname() + " " + homeScore + " - " + awayTeam.teamname() + " " + awayScore;
     }
-
-    public boolean equals(Team team1, Team team2) {
-        return (team1.equals(homeTeam) && team2.equals(team2));
-    }
-
 }

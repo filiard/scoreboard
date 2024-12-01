@@ -11,9 +11,7 @@ public class ScoreboardTest {
     @BeforeEach
     void setUp() {
         scoreboard = new Scoreboard();
-        Team homeTeam = TEAM_MEXICO;
-        Team awayTeam = TEAM_CANADA;
-        scoreboard.startGame(homeTeam, awayTeam);
+        setUpTeams();
     }
 
     @Test
@@ -44,5 +42,9 @@ public class ScoreboardTest {
 
         //then
         assertEquals("Mexico 1 - Canada 0", scoreboard.getGames().get(0).toString());
+    }
+
+    private void setUpTeams() {
+        scoreboard.startGame(TEAM_MEXICO, TEAM_CANADA);
     }
 }

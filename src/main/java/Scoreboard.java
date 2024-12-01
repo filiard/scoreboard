@@ -1,14 +1,15 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Scoreboard {
-    public ArrayList<Game> games;
+    private List<Game> games;
 
     public Scoreboard() {
         games = new ArrayList();
     }
 
     public ArrayList getGames() {
-        return games;
+        return new ArrayList(games);
     }
 
     public void startGame(Team homeTeam, Team awayTeam) {
