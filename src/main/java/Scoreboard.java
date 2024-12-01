@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Scoreboard {
@@ -28,5 +29,19 @@ public class Scoreboard {
                 game.setAwayScore(newAwayScore);
             }
         }
+    }
+
+    public String getSummary() {
+        List<Game> sortedGames = new ArrayList(games);
+        sortedGames.sort(
+                Comparator.comparing(Game::getTotalScore)
+                        .thenComparing(Game::getTimeStarted)
+                        .reversed()
+        );
+        StringBuilder sb = new StringBuilder();
+        for (Game game : sortedGames) {
+            sb.append(game);
+        }
+        return sb.toString();
     }
 }
