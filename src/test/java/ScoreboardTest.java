@@ -21,7 +21,7 @@ public class ScoreboardTest {
         //then
         assertFalse(scoreboard.getGames().isEmpty());
         assertEquals(1, scoreboard.getGames().size());
-        assertEquals("Mexico 0 - Canada 0", scoreboard.getGames().get(0));
+        assertEquals("Mexico 0 - Canada 0", scoreboard.getGames().get(0).toString());
     }
 
     @Test
@@ -43,6 +43,6 @@ public class ScoreboardTest {
         scoreboard.updateScore(homeTeam, awayTeam, 1, 0);
 
         //then
-        assertEquals("Mexico 1 - Canada 0", scoreboard.getGames().get(0));
+        assertEquals("Mexico 1 - Canada 0", scoreboard.getGames().get(0).toString());
     }
 }
