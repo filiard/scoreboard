@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 public class Scoreboard {
     private List<Game> games;
@@ -23,12 +24,12 @@ public class Scoreboard {
     }
 
     public void updateScore(Team homeTeam, Team awayTeam, int newHomeScore, int newAwayScore) {
-        for (Game game : games) {
-            if (game.getHomeTeam().equals(homeTeam) && game.getAwayTeam().equals(awayTeam)) {
-                game.setHomeScore(newHomeScore);
-                game.setAwayScore(newAwayScore);
-            }
-        }
+        checkScoreValidity(newHomeScore);
+        checkScoreValidity(newAwayScore);
+        findGame(homeTeam, awayTeam).ifPresent(game -> {
+            game.setHomeScore(newHomeScore);
+            game.setAwayScore(newAwayScore);
+        });
     }
 
     public String getSummary() {
@@ -40,8 +41,17 @@ public class Scoreboard {
         );
         StringBuilder sb = new StringBuilder();
         for (Game game : sortedGames) {
-            sb.append(game);
+            sb.append(game).append("\n");
         }
-        return sb.toString();
+        return sb.toString().trim();
+    }
+
+    private Optional<Game> findGame(Team homeTeam, Team awayTeam) {
+        return games.stream()
+                .filter(game -> game.getHomeTeam().equals(homeTeam) && game.getAwayTeam().equals(awayTeam))
+                .findFirst();
+    }
+    private void checkScoreValidity(int score){
+        if (score <0) throw new ScoreboardException("Score cannot be negative");
     }
 }

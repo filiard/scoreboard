@@ -49,6 +49,16 @@ public class ScoreboardTest {
     }
 
     @Test
+    void shouldNotAddNegativeScore() {
+        //given
+        Team homeTeam = TEAM_MEXICO;
+        Team awayTeam = TEAM_CANADA;
+
+        //then
+        assertThrows(ScoreboardException.class, () -> scoreboard.updateScore(homeTeam, awayTeam, -1, 0));
+    }
+
+    @Test
     void shouldGiveSpecificGames() {
         //given
         scoreboard.startGame(TEAM_SPAIN, TEAM_BRAZIL);
@@ -79,8 +89,8 @@ public class ScoreboardTest {
         scoreboard.updateScore(TEAM_GERMANY, TEAM_FRANCE, 3, 2);
 
         //then
-        assertEquals(scoreboard.getSummary(), "Spain 3 - Brazil 2" +
-                "Germany 3 - France 2" +
+        assertEquals(scoreboard.getSummary(), "Spain 3 - Brazil 2\n" +
+                "Germany 3 - France 2\n" +
                 "Mexico 1 - Canada 0");
     }
 
