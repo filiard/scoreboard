@@ -44,12 +44,12 @@ public class Game {
         this.awayScore = awayScore;
     }
 
-    public int getTotalScore(){
-        return homeScore+awayScore;
+    public int getTotalScore() {
+        return homeScore + awayScore;
     }
 
     @Override
     public String toString() {
-        return homeTeam.teamname() + " " + homeScore + " - " + awayTeam.teamname() + " " + awayScore+"\n";
+        return homeTeam.teamname() + " " + homeScore + " - " + awayTeam.teamname() + " " + awayScore + "\n";
     }
 }

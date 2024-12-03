@@ -60,6 +60,7 @@ public class ScoreboardTest {
         //then
         assertEquals("Score cannot be negative", assertThrows(ScoreboardException.class, () -> scoreboard.updateScore(homeTeam, awayTeam, -1, 0)).getMessage());
     }
+
     @Test
     void shouldNotAddGameWhenTeamIsAreadyPlaying() {
         //given
@@ -67,7 +68,7 @@ public class ScoreboardTest {
         Team awayTeam = TEAM_SPAIN;
 
         //then
-        assertEquals("One of the teams is already playing another game", assertThrows(ScoreboardException.class, () ->  scoreboard.startGame(homeTeam, awayTeam)).getMessage());
+        assertEquals("One of the teams is already playing another game", assertThrows(ScoreboardException.class, () -> scoreboard.startGame(homeTeam, awayTeam)).getMessage());
     }
 
     @Test

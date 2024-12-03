@@ -26,7 +26,6 @@ public class UserInterface {
                         + "Selection: ";
 
 
-
         while (true) {
             System.out.println(menu);
             int choice = scanner.nextInt();
@@ -83,7 +82,7 @@ public class UserInterface {
 
     private void printSummary() {
         System.out.println("Games Summary:");
-        if(scoreboardInstance.getGames().isEmpty()){
+        if (scoreboardInstance.getGames().isEmpty()) {
             System.out.println("No active games");
         } else {
             for (Game game : scoreboardInstance.getSummary()) {

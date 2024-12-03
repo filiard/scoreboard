@@ -61,8 +61,9 @@ public class Scoreboard {
                 .filter(game -> game.getHomeTeam().equals(homeTeam) && game.getAwayTeam().equals(awayTeam))
                 .findFirst();
     }
-    private void checkScoreValidity(int score){
-        if (score <0) try {
+
+    private void checkScoreValidity(int score) {
+        if (score < 0) try {
             throw new ScoreboardException("Score cannot be negative");
         } catch (ScoreboardException e) {
             throw new RuntimeException(e);
