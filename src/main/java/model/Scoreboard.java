@@ -1,3 +1,7 @@
+package model;
+
+import exception.ScoreboardException;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -14,7 +18,13 @@ public class Scoreboard {
         return new ArrayList(games);
     }
 
-    public void startGame(Team homeTeam, Team awayTeam) {
+    public void startGame(Team homeTeam, Team awayTeam) throws ScoreboardException {
+        for (Game game : games) {
+            if (game.getHomeTeam().equals(homeTeam) || game.getAwayTeam().equals(homeTeam) ||
+                    game.getHomeTeam().equals(awayTeam) || game.getAwayTeam().equals(awayTeam)) {
+                throw new ScoreboardException("One of the teams is already playing another game");
+            }
+        }
         Game newGame = new Game(homeTeam, awayTeam);
         games.add(newGame);
     }
@@ -32,7 +42,7 @@ public class Scoreboard {
         });
     }
 
-    public String getSummary() {
+    public List<Game> getSummary() {
         List<Game> sortedGames = new ArrayList(games);
         sortedGames.sort(
                 Comparator.comparing(Game::getTotalScore)
@@ -43,7 +53,7 @@ public class Scoreboard {
         for (Game game : sortedGames) {
             sb.append(game).append("\n");
         }
-        return sb.toString().trim();
+        return sortedGames;
     }
 
     private Optional<Game> findGame(Team homeTeam, Team awayTeam) {
@@ -52,6 +62,10 @@ public class Scoreboard {
                 .findFirst();
     }
     private void checkScoreValidity(int score){
-        if (score <0) throw new ScoreboardException("Score cannot be negative");
+        if (score <0) try {
+            throw new ScoreboardException("Score cannot be negative");
+        } catch (ScoreboardException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

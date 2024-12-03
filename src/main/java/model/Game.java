@@ -1,3 +1,5 @@
+package model;
+
 import java.time.LocalDateTime;
 
 public class Game {
@@ -48,6 +50,6 @@ public class Game {
 
     @Override
     public String toString() {
-        return homeTeam.teamname() + " " + homeScore + " - " + awayTeam.teamname() + " " + awayScore;
+        return homeTeam.teamname() + " " + homeScore + " - " + awayTeam.teamname() + " " + awayScore+"\n";
     }
 }

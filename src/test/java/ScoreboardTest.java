@@ -1,3 +1,6 @@
+import exception.ScoreboardException;
+import model.Scoreboard;
+import model.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -5,15 +8,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ScoreboardTest {
     private Scoreboard scoreboard;
-    Team TEAM_MEXICO = new Team("Mexico");
-    Team TEAM_CANADA = new Team("Canada");
-    Team TEAM_SPAIN = new Team("Spain");
-    Team TEAM_BRAZIL = new Team("Brazil");
-    Team TEAM_GERMANY = new Team("Germany");
-    Team TEAM_FRANCE = new Team("France");
+    private final Team TEAM_MEXICO = new Team("Mexico");
+    private final Team TEAM_CANADA = new Team("Canada");
+    private final Team TEAM_SPAIN = new Team("Spain");
+    private final Team TEAM_BRAZIL = new Team("Brazil");
+    private final Team TEAM_GERMANY = new Team("Germany");
+    private final Team TEAM_FRANCE = new Team("France");
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws ScoreboardException {
         scoreboard = new Scoreboard();
         setUpTeams();
     }
@@ -55,11 +58,20 @@ public class ScoreboardTest {
         Team awayTeam = TEAM_CANADA;
 
         //then
-        assertThrows(ScoreboardException.class, () -> scoreboard.updateScore(homeTeam, awayTeam, -1, 0));
+        assertEquals("Score cannot be negative", assertThrows(ScoreboardException.class, () -> scoreboard.updateScore(homeTeam, awayTeam, -1, 0)).getMessage());
+    }
+    @Test
+    void shouldNotAddGameWhenTeamIsAreadyPlaying() {
+        //given
+        Team homeTeam = TEAM_MEXICO;
+        Team awayTeam = TEAM_SPAIN;
+
+        //then
+        assertEquals("One of the teams is already playing another game", assertThrows(ScoreboardException.class, () ->  scoreboard.startGame(homeTeam, awayTeam)).getMessage());
     }
 
     @Test
-    void shouldGiveSpecificGames() {
+    void shouldGiveSpecificGames() throws ScoreboardException {
         //given
         scoreboard.startGame(TEAM_SPAIN, TEAM_BRAZIL);
         scoreboard.startGame(TEAM_GERMANY, TEAM_FRANCE);
@@ -77,24 +89,22 @@ public class ScoreboardTest {
     }
 
     @Test
-    void shouldGiveTotalSummary() throws InterruptedException {
+    void shouldGiveTotalSummary() throws InterruptedException, ScoreboardException {
         //given
         scoreboard.startGame(TEAM_GERMANY, TEAM_FRANCE);
         Thread.sleep(1000);
         scoreboard.startGame(TEAM_SPAIN, TEAM_BRAZIL);
+        String expectedSummary = "[Spain 3 - Brazil 2\n" + ", Germany 3 - France 2\n" + ", Mexico 1 - Canada 0\n]";
 
-        //when
-        scoreboard.updateScore(TEAM_MEXICO, TEAM_CANADA, 1, 0);
+        //when        scoreboard.updateScore(TEAM_MEXICO, TEAM_CANADA, 1, 0);
         scoreboard.updateScore(TEAM_SPAIN, TEAM_BRAZIL, 3, 2);
         scoreboard.updateScore(TEAM_GERMANY, TEAM_FRANCE, 3, 2);
 
         //then
-        assertEquals(scoreboard.getSummary(), "Spain 3 - Brazil 2\n" +
-                "Germany 3 - France 2\n" +
-                "Mexico 1 - Canada 0");
+        assertEquals(expectedSummary, scoreboard.getSummary().toString());
     }
 
-    private void setUpTeams() {
+    private void setUpTeams() throws ScoreboardException {
         scoreboard.startGame(TEAM_MEXICO, TEAM_CANADA);
     }
 }
